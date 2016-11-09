@@ -1,0 +1,44 @@
+
+.rowOne {
+	width:350px;
+	position: relative;
+	display: inline-block;
+}
+
+.rowTwo{
+	width:350px;
+	position:relative;
+	display: inline-block;
+}
+
+.rowThree{
+	width:350px;
+	position:relative;
+	display: inline-block;
+}
+
+.board{
+	position: relative;
+	width: 330px;
+	border: 1px solid black;
+}
+
+.card{
+	height: 100px;
+	width: 100px;
+	border: 1px solid;
+	/*border-color: rgb(255,0,0); */
+	background-color: FloralWhite;
+	border-radius: 10px;
+	display: block;
+	float:left;
+	margin:1%;
+}
+
+button{
+	color:black;
+}
+
+img{
+	display: inline;
+}
