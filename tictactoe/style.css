@@ -131,3 +131,7 @@ button:hover{
     position:relative;
     overflow:hidden;
 }
+
+.btn:focus {
+  outline: none;
+}
