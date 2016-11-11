@@ -1,44 +1,133 @@
 
-.rowOne {
+body {
+	height: 100vh;
+	font-family: 'Poppins', sans-serif;
+	background-color: #41C9BC;
+	color:#E71D36;
+}
+
+h1{
+	padding-top: 50px;
+	text-align: center;
+}
+
+.container{
+	margin: auto 10%;
+}
+
+/*.rowOne, .rowTwo, .rowThree
 	width:350px;
 	position: relative;
 	display: inline-block;
+	margin:1%;*/
+
+
+#four, #five, #six, #seven, #eight, #nine{
+	border-top: 5px solid #FF9F1C;
 }
 
-.rowTwo{
-	width:350px;
-	position:relative;
-	display: inline-block;
+#one, #two, #three, #four, #five, #six{
+	border-bottom: 5px solid #FF9F1C;
 }
 
-.rowThree{
-	width:350px;
-	position:relative;
-	display: inline-block;
+#one, #four, #seven, #two, #five, #eight{
+	border-right: 5px solid #FF9F1C;
+}
+
+#two, #five, #eight, #three, #six, #nine{
+	border-left:5px solid #FF9F1C;
 }
 
 .board{
+	/*margin: 30px 0% 0 10%;*/
 	position: relative;
-	width: 330px;
-	border: 1px solid black;
+	width: 320px;
+	/*border: 1px solid black;*/
+	display: inline-block;
+	float: left;
+
 }
 
 .card{
 	height: 100px;
 	width: 100px;
-	border: 1px solid;
-	/*border-color: rgb(255,0,0); */
-	background-color: FloralWhite;
-	border-radius: 10px;
+	/*border: 1px solid;*/
+	/*background-color: rgba(253, 255, 252, 0.2);*/
+	/*border-radius: 10px;*/
 	display: block;
 	float:left;
-	margin:1%;
-}
-
-button{
-	color:black;
+	/*margin:1%;*/
 }
 
 img{
 	display: inline;
+}
+
+
+button{
+	font-family: 'Poppins', sans-serif;
+	position: relative;
+	display: inline-block;
+	margin: 10px;
+	width: 150px;
+	height:50px;
+	background-color: #E71D36;
+	color:#FDFFFC;
+	border: 1px solid #FDFFFC;
+
+}
+
+button:hover{
+	font-weight:200;
+	background-color:#FDFFFC;
+	color: #E71D36;
+	border: 1px solid #E71D36;;
+}
+
+
+
+#playerOne{
+	display: inline-block;
+	float:left;
+	margin-left: 100px;
+	margin-top: 150px;
+	margin-right: 100px;
+}
+
+#playerTwo{
+	position: absolute;
+	display: inline-block;
+	float: right;
+	margin-right: 150px;
+	margin-top: 150px;
+	margin-left: 100px;
+}
+
+.cotent{
+	overflow: auto;
+	display: block;
+	margin-top: 50px;
+	margin-left: 100px;
+	margin-right:auto;
+
+}
+
+.snowflakes {
+    top:0px;
+    left:0px;
+    position:absolute;
+    z-index:200;
+    width:20px;
+    height:20px;
+		background-image: url("img/balloon.png");
+		background-size: cover;
+}
+
+
+
+#site {
+
+    margin:0 auto;
+    position:relative;
+    overflow:hidden;
 }
