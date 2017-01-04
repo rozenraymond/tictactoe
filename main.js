@@ -47,7 +47,7 @@ var newGame = function() {
     $(".card").on("click", function(event) {
         if (turn === 0) {
             if (player === "o") {
-                $(this).css("background-image", "url(img/o.png)");
+                $(this).css("background-image", "url(img/o_new.png)");
 
                 var playerId = event.target.id;
                 playerData.push(playerId);
@@ -60,7 +60,7 @@ var newGame = function() {
                 move += 1;
 
             } else {
-                $(this).css("background-image", "url(img/x.png)");
+                $(this).css("background-image", "url(img/x_new.png)");
 
                 var playerId2 = event.target.id;
                 playerData.push(playerId2);
