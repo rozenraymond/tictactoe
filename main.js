@@ -1,8 +1,8 @@
-//Choose Players
-var player = "";
-var computer = "";
+var player = "x";
+var computer = "o";
 var player1Score = 0;
 var player2Score = 0;
+
 
 swal({
     title: 'Please choose player',
@@ -26,136 +26,96 @@ swal({
     }
 });
 
-var checkWin;
-var playerWin;
-var computerWin;
-var winAlert;
-
-var newGame;
-
-var playerData = [];
-var compData = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
-
-var checkPlayerWin = [];
-var checkCompWin = [];
-var turn = 0;
 var move = 0;
 
-//function to put input X/O
-var newGame = function() {
+var newGame = function (){
+    var playerWin = false;
+    var computerWin = false;
 
-    $(".card").on("click", function(event) {
+    var playerData = [];
+
+    var checkPlayerWin = [];
+
+    var turn = 0;
+    move = 0;
+
+    //remove the falling balloons
+    var snowflakes = document.querySelectorAll( ".snowflakes" ); // Remove the snowflakes
+
+    for ( var i = 0; i < snowflakes.length; i++ ) {
+        snowflakes[ i ].remove();
+    }
+
+    // remove all the x and o images
+    $(".card").css("background-image", "none");
+
+    // player turn to choose
+    $(".card").on("click", function() {
+        //turn = 0, indicating player turn to choose
         if (turn === 0) {
             if (player === "o") {
                 $(this).css("background-image", "url(img/o_new.png)");
+                $(this).css("background-size", "cover");
 
-                var playerId = event.target.id;
+                var playerId = $(this).attr("id");
+
                 playerData.push(playerId);
                 checkPlayerWin.push(playerId);
 
                 var index = compData.indexOf(playerId);
                 compData.splice(index, 1);
 
-                console.log(checkPlayerWin);
                 move += 1;
+                checkWin();
+                alertWin();
+                turn = 1;
 
-            } else {
-                $(this).css("background-image", "url(img/x_new.png)");
-
-                var playerId2 = event.target.id;
-                playerData.push(playerId2);
-                checkPlayerWin.push(playerId2);
-                var index2 = compData.indexOf(playerId2);
-                compData.splice(index2, 1);
-                console.log(checkPlayerWin);
-                move += 1;
             }
-
+        } else{
+            $(this).css("background-image", "url(img/x_new.png)");
+            $(this).css("background-size", "cover");
+            var playerId2 = event.target.id;
+            playerData.push(playerId2);
+            checkPlayerWin.push(playerId2);
+            var index2 = compData.indexOf(playerId2);
+            compData.splice(index2, 1);
+            move += 1;
             checkWin();
-
+            alertWin();
             turn = 1;
-
-
-            if (playerWin === true) {
-                //alert("You win!");
-                fallingSnow(); // Falling snow as reward
-                swal({
-                    title: 'You are the winner',
-                    html: $('<div>')
-                        .addClass('some-class')
-                        .text('Great Job!'),
-                    animation: false,
-                    customClass: 'animated tada'
-                }).then(function() {
-                    player1Score++;
-                    $("#score1").html("Score: " + player1Score);
-                    newGame();
-                });
-
-                return; // If the player wins, no need to execute the remaining code
-            }
-            compMove();
-            checkWin();
-            if (computerWin === true) {
-                // alert("Sorry, you lose");
-
-                // fallingSnow(); Falling snow as reward
-                swal({
-                    title: 'You lose!',
-                    html: $('<div>')
-                        .addClass('some-class')
-                        .text('Better luck next time!'),
-                    animation: false,
-                    customClass: 'animated tada'
-                }).then(function() {
-                    player1Score++;
-                    $("#score1").html("Score: " + player1Score);
-                    newGame();
-                });
-
-                return; // If the comp wins, no need to execute the remaining code
-            }
-
-            if (move > 9) {
-                // alert("It's a tie!");
-                swal({
-                    title: "It's a tie",
-                    html: $('<div>')
-                        .addClass('some-class')
-                        .text('Better luck next time!'),
-                    animation: false,
-                    customClass: 'animated tada'
-                });
-            }
-
-
         }
+
     });
+
+    compMove();
+
 };
-
-
-// call function of game to run when doc is ready
-$(document).ready(function() {
-    newGame();
-});
 
 // computer move
 var compMove = function() {
+    var compData = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+    var checkCompWin = [];
 
     var moveC = Math.floor(Math.random() * compData.length);
     var moveIndex = compData[moveC];
     if (computer === "o") {
-        $("#" + moveIndex).css("background-image", "url(img/o.png)");
+        $("#" + moveIndex).css("background-image", "url(img/o_new.png)");
+        $("#" + moveIndex).css("background-size", "cover");
         checkCompWin.push(moveIndex);
     } else {
-        $("#" + moveIndex).css("background-image", "url(img/x.png)");
+        $("#" + moveIndex).css("background-image", "url(img/x_new.png)");
+        $("#" + moveIndex).css("background-size", "cover");
         checkCompWin.push(moveIndex);
     }
     compData.splice(moveC, 1);
     move += 1;
     turn = 0;
+    checkWin();
+    alertWin();
 };
 
+
+// winning combination
 var winningCombinations = [
     ["one", "two", "three"],
     ["four", "five", "six"],
@@ -167,9 +127,8 @@ var winningCombinations = [
     ["one", "five", "nine"]
 ];
 
-// put this in a function that we call after every move:
-var checkWin = function(x) {
-
+//Check Win
+var checkWin = function(){
     for (var i = 0; i < winningCombinations.length; i++) {
         var playerMatches = 0;
         var compMatches = 0;
@@ -180,16 +139,13 @@ var checkWin = function(x) {
                 playerMatches += 1; //check if checkPlayer[j] is within the winningCombinations[i]
                 if (playerMatches === 3) {
                     playerWin = true;
-                    // winAlert();
                     return playerWin;
                 }
             } else if (winningCombinations[i].includes(checkCompWin[j])) {
                 compMatches += 1;
                 // set matches to be 0 again, to test the next of the winning combinations
                 if (compMatches === 3) {
-                    console.log("Hello World");
                     computerWin = true;
-                    // winAlert();
                     return computerWin;
                 }
             }
@@ -197,45 +153,76 @@ var checkWin = function(x) {
     }
 };
 
+//Alert Win
+var alertWin = function (){
 
-// Snow Falling
-function fallingSnow() {
-    var $snowflakes = $(),
-        createSnowflakes = function() {
-            var qt = 100;
-            for (var i = 0; i < qt; ++i) {
-                var $snowflake = $('<div class="snowflakes"></div>');
-                $snowflake.css({
-                    'left': (Math.random() * $('#site').width()) + 'px',
-                    'top': (-Math.random() * $('#site').height()) + 'px'
-                });
-                // add this snowflake to the set of snowflakes
-                $snowflakes = $snowflakes.add($snowflake);
+    if (playerWin === true) {
+        console.log(playerWin);
+        fallingSnow(); // Falling snow as reward
+        swal({
+            title: 'You are the winner',
+            html: $('<div>')
+                .addClass('some-class')
+                .text('Great Job!'),
+            animation: false,
+            customClass: 'animated tada'
+        }).then(function() {
+
+            if (player === "x"){
+                player1Score++;
+                $("#score1").html("Score: " + player1Score);
+                secondGame();
+                // newGame();
             }
-            $('#snowZone').prepend($snowflakes);
-        },
+            else{
+                player2Score++;
+                $("#score2").html("Score: " + player2Score);
+                secondGame();
+                // newGame();
+            }
+        return;
+        });
+    }
 
-        runSnowStorm = function() {
-            $snowflakes.each(function() {
+    if (computerWin === true) {
 
-                var singleAnimation = function($flake) {
-                    $flake.animate({
-                        top: "500px",
-                        opacity: "0",
-                    }, Math.random() * -2500 + 5000, function() {
-                        // this particular snow flake has finished, restart again
-                        $flake.css({
-                            'left': (Math.random() * $('#site').width()) + 'px',
-                            'top': (-Math.random() * $('#site').height()) + 'px',
-                            'opacity': 1
-                        });
-                        singleAnimation($flake);
-                    });
-                };
-                singleAnimation($(this));
-            });
-        };
+        swal({
+            title: 'You lose!',
+            html: $('<div>')
+                .addClass('some-class')
+                .text('Better luck next time!'),
+            animation: false,
+            customClass: 'animated tada'
+        }).then(function() {
+            if (computer === "x"){
+                player1Score++;
+                $("#score1").html("Score: " + player1Score);
+                secondGame();
+            }
+            else{
+                player2Score++;
+                $("#score2").html("Score: " + player2Score);
+                secondGame();
+            }
+        });
+        return; // If the comp wins, no need to execute the remaining code
+    }
 
-    createSnowflakes();
-    runSnowStorm();
-}
+    if (move > 9) {
+        swal({
+            title: "It's a tie",
+            html: $('<div>')
+                .addClass('some-class')
+                .text('Better luck next time!'),
+            animation: false,
+            customClass: 'animated tada'
+        });
+        return;
+    }
+
+};
+
+
+$(document).ready(function(){
+    newGame();
+});
