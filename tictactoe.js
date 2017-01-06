@@ -11,8 +11,8 @@ var choosePlayer = function(){
       showCancelButton: true,
       confirmButtonColor: '#FFF',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Player One',
-      cancelButtonText: 'Player Two',
+      confirmButtonText: 'Player X',
+      cancelButtonText: 'Player O',
       confirmButtonClass: 'btn btn-success',
       cancelButtonClass: 'btn btn-danger',
       buttonsStyling: false
@@ -41,15 +41,18 @@ var removeSnowflake = function(){
 var checkWin;
 var playerWin;
 var computerWin;
+var player2Win;
 var winAlert;
 
 var newGame;
 
 var playerData = [];
+var player2Data = [];
 var compData = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
 var checkPlayerWin = [];
 var checkCompWin = [];
+var checkPlayer2Win = [];
 var turn = 0; //To determine if it's computer turn or player turn
 var move = 0; //If move == 9, it's a tie
 
@@ -62,6 +65,7 @@ var newGame = function() {
 
   checkPlayerWin = [];
   checkCompWin = [];
+  checkPlayer2Win = [];
 
   turn = 0;
   move = 0;
@@ -69,6 +73,7 @@ var newGame = function() {
 
     $(".card").on("click", function(event) {
         if (turn === 0) {
+            // Two player game
             if (player === "o") {
                 $(this).css("background-image", "url(img/o_new.png)");
                 $(this).css("background-size", "cover");
@@ -87,6 +92,7 @@ var newGame = function() {
 
                 console.log(checkPlayerWin);
                 move += 1;
+                turn = 1;
               }
             } else {
 
@@ -101,13 +107,12 @@ var newGame = function() {
                   var index2 = compData.indexOf(playerId2);
                   compData.splice(index2, 1);
                   move += 1;
+                  turn = 1;
                 }
 
             }
 
             checkWin();
-
-            turn = 1;
 
 
             if (playerWin === true) {
@@ -168,6 +173,25 @@ var newGame = function() {
 
                 return; // If the comp wins, no need to execute the remaining code
             }
+
+            // if (player2Win === true) {
+            //     console.log("Player 2 Win");
+            //     fallingSnow(); // Falling snow as reward
+            //     swal({
+            //         title: 'Player 2 is the winner',
+            //         html: $('<div>')
+            //             .addClass('some-class')
+            //             .text('Great Job!'),
+            //         animation: false,
+            //         customClass: 'animated tada'
+            //     }).then(function() {
+            //             player2Score++;
+            //             $("#score2").html("Score: " + player2Score);
+            //             secondGame();
+            //     });
+            //
+            //     return; // If the player wins, no need to execute the remaining code
+            // }
 
             if (move > 9) {
                 swal({
@@ -251,6 +275,28 @@ var compMove = function() {
     turn = 0;
 };
 
+// second player input
+// var player2Move = function(){
+//   if(turn === 1){
+//     $(".card").on("click", function(event) {
+//       $(this).css("background-image", "url(img/x_new.png)");
+//       $(this).css("background-size", "cover");
+//
+//       var player2Id = event.target.id;
+//       if (player2Data.includes(player2Id)){
+//         return;
+//       }else {
+//         player2Data.push(player2Id);
+//         checkPlayer2Win.push(player2Id);
+//         move += 1;
+//         turn = 0;
+//       }
+//     });
+//   }
+//
+// };
+
+
 var winningCombinations = [
     ["one", "two", "three"],
     ["four", "five", "six"],
@@ -267,6 +313,7 @@ var checkWin = function() {
 
     for (var i = 0; i < winningCombinations.length; i++) {
         var playerMatches = 0;
+        var player2Matches = 0;
         var compMatches = 0;
         // winningCombinations[i] will be one winning combination.
         // Now iterate over all the elements in checkPlayerWin
@@ -285,6 +332,14 @@ var checkWin = function() {
                     return computerWin;
                 }
             }
+            // else if (winningCombinations[i].includes(checkPlayer2Win[j])){
+            //   player2Matches += 1;
+            //   if (player2Matches === 3){
+            //     player2Win = true;
+            //     return player2Win;
+            //   }
+            // }
+
         }
     }
 };
